@@ -1,0 +1,5 @@
+send global transaction info from root to children: Done as communication to child backend.  Child backend registers this process to the worker process.  
+When root transaction successfully send global transaction information to a child, it can (not necessarily) update its latest valid clock to the child.
+We need another hook to handle extended qtype at SocketBackend(): postgres.c
+Maybe we need some new function to register protocol handler for unknown qtype.
+

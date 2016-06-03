@@ -1,0 +1,59 @@
+Additional GUC
+
+Worker process local socket
+Worker process port (for the comunication to other worker)
+max_nodes
+max_g_trans
+
+Worker process to Worker process
+
+1. Update node latest valid clock.
+2. Request upadte node latest valid clock.
+3. Update node earliest reference clock.
+4. Request node earliest reference clock.
+5. Register node
+6. Unregistger nocde
+
+Shared memory among worker process and backends
+
+1. Node info
+2. Global transaction info
+
+Backend to local worker process
+
+1. Request update external node latest valid clock
+2. Request shm handle
+3. Update root transaction completion clock
+4. Upadte root transaction reference clock -> Initiate earliest reference clock update broadcast.
+
+Parent backend to child backend
+
+1. XID notification
+2. node notification
+3. transaction reference clock notification
+
+Worker process specific:
+
+1. Cleanup global transaction info (based upon earliest reference clock update)
+2. Expand node information from the schema.
+
+pgxl.pgxl_nodes(
+		uint32	nodeid;
+		struct timeval latest_valid_clock;
+		struct timeval earliest_ref_clock;
+		int	   sender_sock;
+		int	   receiver_sock;
+		uint32 sender_port;
+		char   addr[ADDR_MAX+1];
+		);
+
+Backend process specific:
+
+1. Create child global transaction info entry.
+2. Update transaction completion clock.
+3. Create root (parent) global transaction info entry.
+4. Setup transaction reference clock.
+5. Setup transaction completion clock. (parent/child)
+
+* Sequence: define sequence host and visit the host for sequence.
+
